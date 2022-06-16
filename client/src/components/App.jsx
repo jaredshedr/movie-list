@@ -5,6 +5,7 @@ import AddMovie from './AddMovie.jsx';
 import Unwatched from './Unwatched.jsx';
 import Watched from './Watched.jsx';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -17,6 +18,7 @@ class App extends React.Component {
       addMovie: '',
       renderWatch: false,
       renderUnwatch: true,
+      currentMovie:[]
     };
 
     this.searchExisting = this.searchExisting.bind(this);
@@ -28,11 +30,22 @@ class App extends React.Component {
     this.watched = this.watched.bind(this);
   }
 
-  addMovie (event) {
+  query (movieName) {
+    // fetch(`https://api.themoviedb.org/3/search/movie?api_key=6abd4ea30614383e5ea98f7e0f4db692&query=${movieName}`)
+    //   .then(response => response.json())
+    //   .then(data => this.setState({currentMovie: data.results}))
+  }
+
+  async addMovie (event) {
 
     var savedState = this.state.movies;
 
-    var newMovie = {title: this.state.addMovie, watched:false, titleClick:false, movieInfo:{year: 1222, description:'this is a movie'}};
+    // this.query(this.state.addMovie);
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=6abd4ea30614383e5ea98f7e0f4db692&query=${this.state.addMovie}`)
+    const json = await response.json()
+    this.setState({currentMovie: json.results})
+
+    var newMovie = {title: this.state.addMovie, watched:false, titleClick:false, movieInfo:{year: this.state.currentMovie[0].release_date, description:this.state.currentMovie[0].overview}};
 
     savedState.push(newMovie);
 
