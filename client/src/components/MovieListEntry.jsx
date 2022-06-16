@@ -1,16 +1,25 @@
 import React from 'react';
 
-let MovieListEntry = (props) => (
-    <div className='movie-entry'>
-        <div className="ind-movie">{props.movie.title}</div>
-        <button style={{backgroundColor: props.movie.watched ? 'green' : 'white'}} onClick={(event) => props.isWatched(event, props.movie) }>Watched</button>
-    </div>
-);
+let MovieListEntry = function (props) {
+
+    if (!props.movie.titleClick) {
+        return (
+            <div className='movie-entry'>
+                <div className="ind-movie" onClick={(event) => props.titleClick(event, props.movie)}>{props.movie.title}</div>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <div className='movie-entry'>
+                    <div className="ind-movie" onClick={(event) => props.titleClick(event, props.movie)}>{props.movie.title}</div>
+                    <div>Year Produced: {props.movie.movieInfo.year}</div>
+                    <div>Description: {props.movie.movieInfo.description}</div>
+                    <button style={{backgroundColor: props.movie.watched ? 'green' : 'white'}} onClick={(event) => props.isWatched(event, props.movie) }>Watched</button>
+                </div>
+            </div>
+        );
+    }
+}
 
 export default MovieListEntry
-
-// create a watched an unwatched button
-  // when clicking the watched it will sort it into the unwatched state
-// if watched is clicked the method will change state
-
-// conditional in movie list entry, if watched is true, render all watched and set unwatched to false

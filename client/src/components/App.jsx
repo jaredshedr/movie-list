@@ -32,7 +32,7 @@ class App extends React.Component {
 
     var savedState = this.state.movies;
 
-    var newMovie = {title: this.state.addMovie, watched:false, titleClick:false};
+    var newMovie = {title: this.state.addMovie, watched:false, titleClick:false, movieInfo:{year: 1222, description:'this is a movie'}};
 
     savedState.push(newMovie);
 
@@ -63,9 +63,15 @@ class App extends React.Component {
     })
 
     if (matchingContainer.length === 0 || this.state.search === '') {
-      this.setState({
-        movies: this.state.searched
-      })
+      if (this.state.searched.length === 0) {
+        this.setState({
+          movies: this.state.movies
+        })
+      } else {
+        this.setState({
+          movies: this.state.searched
+        })
+      }
       window.alert('No Results Found')
     } else {
       this.setState({
@@ -122,16 +128,24 @@ class App extends React.Component {
     })
   }
 
-  titleClick (event) {
-      // method that gets sent down to title
+  titleClick (event, movie) {
 
-      // if title.click is clicked
-        // set the property to true
+    let unwatchedMovies = this.state.movies;
 
-      // update state
+    for (var i = 0; i < unwatchedMovies.length; i++) {
+      var item = unwatchedMovies[i];
+      if (item.title === movie.title) {
+        if (!movie.titleClick) {
+          item.titleClick = true;
+        } else {
+          item.titleClick = false;
+        }
+      }
+    }
 
-      // on re-render if it has a true property for title click
-        //render a div below
+    this.setState({
+      movies:unwatchedMovies
+    })
   }
 
   render () {
@@ -145,8 +159,10 @@ class App extends React.Component {
       <div>
         <SearchBar handleChange={this.handleChange} search={this.searchExisting}/>
       </div>
-      <Watched watched={this.watched}/>
-      <Unwatched unwatched={this.unwatched}/>
+      <div className='flexer'>
+        <Watched watched={this.watched}/>
+        <Unwatched unwatched={this.unwatched}/>
+      </div>
       <MovieList movies = {this.state.renderUnwatch ? this.state.movies : this.state.watched} isWatched={this.isWatched} titleClick = {this.titleClick.bind(this)}/>
     </div>
     )

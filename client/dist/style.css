@@ -2,7 +2,7 @@ body {
   font-family: sans-serif, arial;
 }
 
-.ind-movie {
+.movie-entry {
   padding: 20px;
   border: 1px;
   border-style: solid;
@@ -17,6 +17,12 @@ body {
   margin-bottom: 10px;
 }
 
-.movie-entry {
+.flexer {
   display: flex;
+  padding: 5px;
 }
+
+.watch-btn {
+  padding-right: 10px;
+}
+
