@@ -45,7 +45,7 @@ class App extends React.Component {
     const json = await response.json()
     this.setState({currentMovie: json.results})
 
-    var newMovie = {title: this.state.addMovie, watched:false, titleClick:false, movieInfo:{year: this.state.currentMovie[0].release_date, description:this.state.currentMovie[0].overview}};
+    var newMovie = {title: this.state.currentMovie[0].title, watched:false, titleClick:false, movieInfo:{year: this.state.currentMovie[0].release_date, description:this.state.currentMovie[0].overview}};
 
     savedState.push(newMovie);
 
@@ -53,7 +53,6 @@ class App extends React.Component {
       movies: savedState
     })
 
-    // console.log(this.state);
   }
 
   handleAddMovie (event) {
